@@ -17,6 +17,7 @@ public class DataInitializer {
     public DataInitializer(UserRoleRepository userRoleRepository, AppUserRepository appUserRepository) {
         this.userRoleRepository = userRoleRepository;
         this.appUserRepository = appUserRepository;
+        initialise();
     }
 
 
