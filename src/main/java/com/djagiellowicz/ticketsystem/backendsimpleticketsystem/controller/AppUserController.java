@@ -2,9 +2,9 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserAlreadyExistsException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.PageResponse;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.Response;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.ResponseFactory;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +29,8 @@ public class AppUserController {
         try {
             appUserService.register(appUser);
         } catch (UserAlreadyExistsException e) {
-            return ResponseFactory.badRequest();
+            return ResponseFactory.usernameAlreadyExists();
         }
-
         return ResponseFactory.created();
     }
 

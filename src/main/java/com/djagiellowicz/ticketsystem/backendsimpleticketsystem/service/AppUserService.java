@@ -1,8 +1,9 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserAlreadyExistsException;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.PageResponse;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ public class AppUserService implements IAppUserService {
         if (byLogin.isPresent()){
             throw new UserAlreadyExistsException();
         }
+
         appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
 
         appUserRepository.save(appUser);
@@ -47,5 +49,15 @@ public class AppUserService implements IAppUserService {
 
     public PageResponse<AppUser> getAllAppUsers(){
         return getPageAppUsers(0);
+    }
+
+    public void removeUser(Long userId)throws UserDoesNotExistsOrIsNotLoggedInException{
+        Optional<AppUser> byId = appUserRepository.findById(userId);
+        if (byId.isPresent()){
+            appUserRepository.delete(byId.get());
+        }
+        else{
+            throw new UserDoesNotExistsOrIsNotLoggedInException();
+        }
     }
 }

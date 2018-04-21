@@ -1,4 +1,4 @@
-package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO;
+package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

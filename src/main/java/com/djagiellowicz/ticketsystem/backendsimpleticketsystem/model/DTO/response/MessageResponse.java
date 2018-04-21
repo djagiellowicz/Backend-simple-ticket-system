@@ -1,4 +1,4 @@
-package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO;
+package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response;
 
 public class MessageResponse extends Response{
     private String message;
