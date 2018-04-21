@@ -12,6 +12,12 @@ import java.util.Set;
 @Entity
 public class AppUser {
 
+    public AppUser(String name, String password, UserRole userRole) {
+        this.name = name;
+        this.password = password;
+        this.userRoleSet.add(userRole);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +36,8 @@ public class AppUser {
     private List<Comment> commentList;
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.PERSIST)
     private List<IncidentChange> incidentChangeList;
+
+
 }
 
 

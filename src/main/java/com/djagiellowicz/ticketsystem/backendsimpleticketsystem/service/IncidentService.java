@@ -1,11 +1,13 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.IncidentDoesNotExistsException;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.ThereIsNoSuchStatusException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Comment;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUserRepository;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.CommentRepository;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.IncidentChangeRepository;
@@ -45,6 +47,7 @@ public class IncidentService implements IIncidentService {
         {
             AppUser appUser = byId.get();
             incident.setCreatedBy(appUser);
+            incident.setStatus(IncidentStatus.NEW);
             incidentRepository.save(incident);
         }
         else{
@@ -64,6 +67,7 @@ public class IncidentService implements IIncidentService {
         return getPageIncidents(0);
     }
 
+    @Override
     public void addComment(Comment comment, Long userId, Long incidentId)
             throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException
     {
@@ -79,6 +83,36 @@ public class IncidentService implements IIncidentService {
                 comment.setIncident(incident);
                 incident.getCommentList().add(comment);
                 commentRepository.save(comment);
+            }
+            else{
+                throw new IncidentDoesNotExistsException();
+            }
+        }
+        else {
+            throw new UserDoesNotExistsOrIsNotLoggedInException();
+        }
+    }
+
+    @Override
+    public void changeStatus(Long userId, Long incidentId, int statusId)
+            throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException,
+                    ThereIsNoSuchStatusException{
+        Optional<AppUser> appUserById = appUserRepository.findById(userId);
+        Optional<Incident> incidentById = incidentRepository.findById(incidentId);
+
+        if (appUserById.isPresent()){
+//  TODO: It will be needed if ChangeLog works  AppUser appUser = appUserById.get();
+            if (incidentById.isPresent()){
+                Incident incident = incidentById.get();
+                IncidentStatus[] incidentStatus = IncidentStatus.values();
+                for (IncidentStatus status : incidentStatus) {
+                    if (status.getValue() == statusId){
+                        incident.setStatus(status);
+                        incidentRepository.save(incident);
+                        return;
+                    }
+                }
+                throw new ThereIsNoSuchStatusException();
             }
             else{
                 throw new IncidentDoesNotExistsException();
