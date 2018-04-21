@@ -2,7 +2,6 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,7 +18,7 @@ public class Incident {
     private String description;
     private LocalDateTime creationDate;
     private IncidentStatus status;
-    
+
     @OneToMany(mappedBy = "incident")
     private List<Comment> commentList;
     @ManyToOne(cascade = CascadeType.PERSIST)
