@@ -39,6 +39,6 @@ public class AppUserController {
     public ResponseEntity<PageResponse<AppUser>> list(){
         PageResponse<AppUser> listOfAppUsers = appUserService.getAllAppUsers();
 
-        return ResponseFactory.pageResposne(listOfAppUsers);
+        return ResponseFactory.pageResponse(listOfAppUsers);
     }
 }

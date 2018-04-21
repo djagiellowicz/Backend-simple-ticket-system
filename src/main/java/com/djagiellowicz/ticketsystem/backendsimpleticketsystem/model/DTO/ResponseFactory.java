@@ -13,7 +13,7 @@ public abstract class ResponseFactory {
     public static ResponseEntity<Response> badRequest(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-    public static <T> ResponseEntity<PageResponse<T>> pageResposne(PageResponse<T> response){
+    public static <T> ResponseEntity<PageResponse<T>> pageResponse(PageResponse<T> response){
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
