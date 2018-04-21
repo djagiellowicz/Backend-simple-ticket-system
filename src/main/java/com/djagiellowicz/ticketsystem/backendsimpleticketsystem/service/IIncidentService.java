@@ -16,5 +16,7 @@ public interface IIncidentService {
     void changeStatus(Long userId, Long incidentId, int statusId)
             throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException,
             ThereIsNoSuchStatusException;
+    void updateIncident(Incident incident, Long userId)
+            throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
 
 }

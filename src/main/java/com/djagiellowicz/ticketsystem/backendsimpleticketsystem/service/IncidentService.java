@@ -12,6 +12,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUs
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.CommentRepository;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.IncidentChangeRepository;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.IncidentRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,6 +50,25 @@ public class IncidentService implements IIncidentService {
             incident.setCreatedBy(appUser);
             incident.setStatus(IncidentStatus.NEW);
             incidentRepository.save(incident);
+        }
+        else{
+            throw new UserDoesNotExistsOrIsNotLoggedInException();
+        }
+
+    }
+    @Override
+    public void updateIncident(Incident incident, Long userId)
+            throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException {
+        Optional<AppUser> appUserById = appUserRepository.findById(userId);
+        Optional<Incident> incidentById = incidentRepository.findById(incident.getId());
+
+        if (appUserById.isPresent()){
+            if (incidentById.isPresent()){
+                incidentRepository.save(incident);
+            }
+            else{
+                throw new IncidentDoesNotExistsException();
+            }
         }
         else{
             throw new UserDoesNotExistsOrIsNotLoggedInException();
