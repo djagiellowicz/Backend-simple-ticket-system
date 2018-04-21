@@ -2,6 +2,7 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserAlreadyExistsException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.Response;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.ResponseFactory;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.AppUserService;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -36,8 +35,10 @@ public class AppUserController {
         return ResponseFactory.created();
     }
 
-//    @RequestMapping(path = "/list")
-//    public ResponseEntity<Response> list(){
-//        List<AppUser> listOfAppUsers = appUserService.getAllAppUsers();
-//    }
+    @RequestMapping(path = "/list")
+    public ResponseEntity<PageResponse<AppUser>> list(){
+        PageResponse<AppUser> listOfAppUsers = appUserService.getAllAppUsers();
+
+        return ResponseFactory.pageResposne(listOfAppUsers);
+    }
 }
