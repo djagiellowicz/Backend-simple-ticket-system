@@ -2,6 +2,7 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserAlreadyExistsException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
@@ -34,8 +35,8 @@ public class AppUserController {
     }
 
     @RequestMapping(path = "/list")
-    public ResponseEntity<PageResponse<AppUserDTO>> list(){
-        PageResponse<AppUserDTO> listOfAppUsers = appUserService.getAllAppUsers();
+    public ResponseEntity<PageResponse<AppUser>> list(){
+        PageResponse<AppUser> listOfAppUsers = appUserService.getAllAppUsers();
 
         return ResponseFactory.pageResponse(listOfAppUsers);
     }

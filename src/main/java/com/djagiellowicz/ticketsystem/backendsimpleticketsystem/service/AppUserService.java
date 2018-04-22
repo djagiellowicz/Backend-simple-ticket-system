@@ -62,30 +62,30 @@ public class AppUserService implements IAppUserService {
         appUserRepository.save(appUser);
     }
 
-    public PageResponse<AppUserDTO> getPageAppUsers(int page){
-        Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
-
-        long elements = allBy.getTotalElements();
-        long currentPage = allBy.getNumber();
-
-
-        return new PageResponse<>(elements, currentPage, allBy.stream()
-                .map(appUser -> new AppUserDTO(appUser.getLogin(), appUser.getName(), appUser.getSurname(), appUser.getPassword()))
-                .collect(Collectors.toList()));
-    }
-    public PageResponse<AppUserDTO> getAllAppUsers(){
-        return getPageAppUsers(0);
-    }
-
-//    public PageResponse<AppUser> getPageAppUsers(int page){
+//    public PageResponse<AppUserDTO> getPageAppUsers(int page){
 //        Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
 //
-//        return new PageResponse<>(allBy);
+//        long elements = allBy.getTotalElements();
+//        long currentPage = allBy.getNumber();
+//
+//
+//        return new PageResponse<>(elements, currentPage, allBy.stream()
+//                .map(appUser -> new AppUserDTO(appUser.getLogin(), appUser.getName(), appUser.getSurname(), appUser.getPassword()))
+//                .collect(Collectors.toList()));
 //    }
-
-//    public PageResponse<AppUser> getAllAppUsers(){
+//    public PageResponse<AppUserDTO> getAllAppUsers(){
 //        return getPageAppUsers(0);
 //    }
+
+    public PageResponse<AppUser> getPageAppUsers(int page){
+        Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
+
+        return new PageResponse<>(allBy);
+    }
+
+    public PageResponse<AppUser> getAllAppUsers(){
+        return getPageAppUsers(0);
+    }
 
     public void removeUser(Long userId)throws UserDoesNotExistsOrIsNotLoggedInException{
         Optional<AppUser> byId = appUserRepository.findById(userId);
