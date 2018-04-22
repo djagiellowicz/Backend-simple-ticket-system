@@ -11,7 +11,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 public interface IIncidentService {
     PageResponse<Incident> getPageIncidents(int page);
     PageResponse<Incident> getPageIncidents();
-    void createIncident(IncidentDTO incidentDTO, Long userId) throws UserDoesNotExistsOrIsNotLoggedInException;
+    void createIncident(IncidentDTO incidentDTO) throws UserDoesNotExistsOrIsNotLoggedInException;
     void addComment(Comment comment, Long userId, Long incidentId)
             throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
     void changeStatus(Long userId, Long incidentId, int statusId)

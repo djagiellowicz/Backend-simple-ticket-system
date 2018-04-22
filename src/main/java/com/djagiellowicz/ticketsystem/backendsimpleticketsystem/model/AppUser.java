@@ -1,6 +1,7 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,7 @@ public class AppUser {
     private String login;
     private String name;
     private String surname;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public AppUser(String login, String password, UserRole userRole) {

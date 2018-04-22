@@ -10,10 +10,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.IIncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -28,9 +25,9 @@ public class IncidentController {
     }
 
     @RequestMapping(path = "/create")
-    public ResponseEntity<Response> createIncident(@RequestBody IncidentDTO incidentDTO, Long userId) {
+    public ResponseEntity<Response> createIncident(@RequestBody IncidentDTO incidentDTO) {
         try {
-            incidentService.createIncident(incidentDTO, userId);
+            incidentService.createIncident(incidentDTO);
         } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
             return ResponseFactory.badRequest();
         }
@@ -59,8 +56,13 @@ public class IncidentController {
         return ResponseFactory.deleted();
 
     }
+    @RequestMapping(path = "/list/{page}")
+    public ResponseEntity<PageResponse<Incident>> getIncident(@PathVariable("page") int page, Long userId) {
+        PageResponse<Incident> pageIncidents = incidentService.getPageIncidents(page);
+        return ResponseFactory.pageResponse(pageIncidents);
+    }
     @RequestMapping(path = "/list")
-    public ResponseEntity<PageResponse<Incident>> getIncident(Long incidentId, Long userId) {
+    public ResponseEntity<PageResponse<Incident>> getIncident(Long userId) {
         PageResponse<Incident> pageIncidents = incidentService.getPageIncidents();
         return ResponseFactory.pageResponse(pageIncidents);
     }

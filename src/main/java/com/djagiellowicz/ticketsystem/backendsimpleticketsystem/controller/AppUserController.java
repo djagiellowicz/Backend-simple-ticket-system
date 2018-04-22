@@ -41,6 +41,14 @@ public class AppUserController {
         return ResponseFactory.pageResponse(listOfAppUsers);
     }
 
+    @RequestMapping(path = "/list/{page}")
+    public ResponseEntity<PageResponse<AppUser>> list(@PathVariable("page") int page){
+
+        PageResponse<AppUser> listOfAppUsers = appUserService.getPageAppUsers(page);
+
+        return ResponseFactory.pageResponse(listOfAppUsers);
+    }
+
 //    @RequestMapping(path = "/get/{number}")
 //    public ResponseEntity<AppUserDTO> get(@PathVariable("number") Long id){
 //        appUserService.getUser(Long id);
