@@ -5,6 +5,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.There
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Comment;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
@@ -41,14 +42,33 @@ public class IncidentService implements IIncidentService {
         this.appUserRepository = appUserRepository;
     }
 
+//    @Override
+//    public void createIncident(Incident incident, Long userId) throws UserDoesNotExistsOrIsNotLoggedInException {
+//        Optional<AppUser> byId = appUserRepository.findById(userId);
+//        if (byId.isPresent())
+//        {
+//            AppUser appUser = byId.get();
+//            incident.setCreatedBy(appUser);
+//            incident.setStatus(IncidentStatus.NEW);
+//            incidentRepository.save(incident);
+//        }
+//        else{
+//            throw new UserDoesNotExistsOrIsNotLoggedInException();
+//        }
+//
+//    }
+
     @Override
-    public void createIncident(Incident incident, Long userId) throws UserDoesNotExistsOrIsNotLoggedInException {
+    public void createIncident(IncidentDTO incidentDTO, Long userId) throws UserDoesNotExistsOrIsNotLoggedInException {
         Optional<AppUser> byId = appUserRepository.findById(userId);
         if (byId.isPresent())
         {
+            Incident incident = new Incident(incidentDTO.getTitle(),incidentDTO.getDescription());
+
             AppUser appUser = byId.get();
             incident.setCreatedBy(appUser);
             incident.setStatus(IncidentStatus.NEW);
+
             incidentRepository.save(incident);
         }
         else{
@@ -56,6 +76,7 @@ public class IncidentService implements IIncidentService {
         }
 
     }
+
     @Override
     public void updateIncident(Incident incident, Long userId)
             throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException {

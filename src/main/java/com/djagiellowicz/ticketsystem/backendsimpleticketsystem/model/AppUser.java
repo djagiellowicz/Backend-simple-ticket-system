@@ -12,12 +12,6 @@ import java.util.Set;
 @Entity
 public class AppUser {
 
-    public AppUser(String name, String password, UserRole userRole) {
-        this.name = name;
-        this.password = password;
-        this.userRoleSet.add(userRole);
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +20,20 @@ public class AppUser {
     private String surname;
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    public AppUser(String name, String password, UserRole userRole) {
+        this.name = name;
+        this.password = password;
+        this.userRoleSet.add(userRole);
+    }
+
+    public AppUser(String login, String name, String surname, String password) {
+        this.login = login;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+    }
+
+    @OneToMany(mappedBy = "appUser",fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<UserRole> userRoleSet;
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.PERSIST)
     private List<Incident> createdIncidentsList;
@@ -36,6 +43,7 @@ public class AppUser {
     private List<Comment> commentList;
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.PERSIST)
     private List<IncidentChange> incidentChangeList;
+
 
 
 }

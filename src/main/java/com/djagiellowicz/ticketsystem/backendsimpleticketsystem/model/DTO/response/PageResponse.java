@@ -10,12 +10,18 @@ import java.util.List;
 @NoArgsConstructor
 public class PageResponse<T> extends Response {
     private List<T> objects;
-    private int currentPage;
-    private int numberOfElements;
+    private long currentPage;
+    private long numberOfElements;
 
     public PageResponse(Page<T> objects) {
         this.currentPage = objects.getNumber();
         this.numberOfElements = objects.getNumberOfElements();
         this.objects = objects.getContent();
+    }
+
+    public PageResponse(long numberOfE, long currentPage, List<T> list){
+        this.numberOfElements = numberOfE;
+        this.currentPage = currentPage;
+        this.objects = list;
     }
 }

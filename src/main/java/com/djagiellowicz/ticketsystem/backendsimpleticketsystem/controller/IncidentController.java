@@ -2,6 +2,7 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.IncidentDoesNotExistsException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
@@ -26,9 +27,9 @@ public class IncidentController {
     }
 
     @RequestMapping(path = "/create")
-    public ResponseEntity<Response> createIncident(@RequestBody Incident incident, Long userId){
+    public ResponseEntity<Response> createIncident(@RequestBody IncidentDTO incidentDTO, Long userId){
         try {
-            incidentService.createIncident(incident, userId);
+            incidentService.createIncident(incidentDTO, userId);
         } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
             return ResponseFactory.badRequest();
         }

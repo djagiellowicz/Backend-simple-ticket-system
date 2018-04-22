@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -28,4 +29,12 @@ public class Incident {
     @OneToOne
     private ChangeLog changeLog;
 
+    public Incident(String title, String description) {
+        this.title = title;
+        this.description = description;
+        this.creationDate = LocalDateTime.now();
+        this.status = IncidentStatus.NEW;
+        this.commentList = new ArrayList<>();
+        this.changeLog = new ChangeLog();
+    }
 }

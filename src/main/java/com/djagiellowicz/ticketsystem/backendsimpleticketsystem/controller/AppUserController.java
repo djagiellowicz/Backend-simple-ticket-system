@@ -2,6 +2,7 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserAlreadyExistsException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
@@ -25,9 +26,9 @@ public class AppUserController {
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Response> registerUser(@RequestBody AppUser appUser){
+    public ResponseEntity<Response> registerUser(@RequestBody AppUserDTO appUserDTO){
         try {
-            appUserService.register(appUser);
+            appUserService.register(appUserDTO);
         } catch (UserAlreadyExistsException e) {
             return ResponseFactory.usernameAlreadyExists();
         }
@@ -35,8 +36,8 @@ public class AppUserController {
     }
 
     @RequestMapping(path = "/list")
-    public ResponseEntity<PageResponse<AppUser>> list(){
-        PageResponse<AppUser> listOfAppUsers = appUserService.getAllAppUsers();
+    public ResponseEntity<PageResponse<AppUserDTO>> list(){
+        PageResponse<AppUserDTO> listOfAppUsers = appUserService.getAllAppUsers();
 
         return ResponseFactory.pageResponse(listOfAppUsers);
     }
