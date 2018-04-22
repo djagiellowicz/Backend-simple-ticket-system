@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,9 +21,10 @@ public class AppUser {
     private String surname;
     private String password;
 
-    public AppUser(String name, String password, UserRole userRole) {
-        this.name = name;
+    public AppUser(String login, String password, UserRole userRole) {
+        this.login = login;
         this.password = password;
+        this.userRoleSet = new HashSet<>();
         this.userRoleSet.add(userRole);
     }
 
@@ -33,7 +35,7 @@ public class AppUser {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "appUser",fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "appUser",fetch = FetchType.EAGER)
     private Set<UserRole> userRoleSet;
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.PERSIST)
     private List<Incident> createdIncidentsList;

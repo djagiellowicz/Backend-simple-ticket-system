@@ -1,7 +1,7 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserAlreadyExistsException;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
@@ -9,11 +9,9 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.respon
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/user")
 public class AppUserController {
@@ -40,5 +38,23 @@ public class AppUserController {
         PageResponse<AppUserDTO> listOfAppUsers = appUserService.getAllAppUsers();
 
         return ResponseFactory.pageResponse(listOfAppUsers);
+    }
+
+//    @RequestMapping(path = "/get/{number}")
+//    public ResponseEntity<AppUserDTO> get(@PathVariable("number") Long id){
+//        appUserService.getUser(Long id);
+//
+//        return new ResponseEntity<AppUserDTO>(user));
+//    }
+
+    @RequestMapping(path = "/delete")
+    public ResponseEntity<Response> deleteUser(long userId, long userToDeleteId){
+        try {
+            appUserService.removeUser(userToDeleteId);
+        } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
+            return ResponseFactory.badRequest();
+        }
+
+        return ResponseFactory.deleted();
     }
 }

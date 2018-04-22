@@ -1,14 +1,12 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @Entity
 public class ChangeLog {
     @Id

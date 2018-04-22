@@ -13,7 +13,6 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUs
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.CommentRepository;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.IncidentChangeRepository;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.IncidentRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,6 +92,19 @@ public class IncidentService implements IIncidentService {
         }
         else{
             throw new UserDoesNotExistsOrIsNotLoggedInException();
+        }
+
+    }
+
+    @Override
+    public void deleteIncident(Long incidentId, Long userId) throws IncidentDoesNotExistsException {
+        Optional<Incident> byId = incidentRepository.findById(incidentId);
+        if (byId.isPresent()){
+            Incident incident = byId.get();
+            incidentRepository.delete(incident);
+        }
+        else{
+            throw new IncidentDoesNotExistsException();
         }
 
     }

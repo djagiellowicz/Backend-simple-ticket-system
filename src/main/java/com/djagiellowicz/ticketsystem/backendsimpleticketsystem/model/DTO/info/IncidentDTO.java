@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 public class IncidentDTO {
     private String title;
     private String description;
-    //private long assignedToId;
     private long createdById;
 }

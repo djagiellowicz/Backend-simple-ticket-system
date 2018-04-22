@@ -20,4 +20,5 @@ public interface IIncidentService {
     void updateIncident(Incident incident, Long userId)
             throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
 
+    void deleteIncident(Long incidentId, Long userId) throws IncidentDoesNotExistsException;
 }
