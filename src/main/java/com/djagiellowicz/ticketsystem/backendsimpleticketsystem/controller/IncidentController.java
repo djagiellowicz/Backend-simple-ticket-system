@@ -57,7 +57,7 @@ public class IncidentController {
 
     }
     @RequestMapping(path = "/list/{page}")
-    public ResponseEntity<PageResponse<Incident>> getIncident(@PathVariable("page") int page, Long userId) {
+    public ResponseEntity<PageResponse<Incident>> getIncident(@PathVariable("page") int page) {
         PageResponse<Incident> pageIncidents = incidentService.getPageIncidents(page);
         return ResponseFactory.pageResponse(pageIncidents);
     }

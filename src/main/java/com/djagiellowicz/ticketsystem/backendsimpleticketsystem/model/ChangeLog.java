@@ -14,7 +14,7 @@ public class ChangeLog {
     private Long id;
     @OneToOne
     private Incident incident;
-    @OneToMany(mappedBy = "changeLog")
+    @OneToMany(mappedBy = "changeLog", cascade = CascadeType.ALL)
     private List<IncidentChange> incidentChangeList;
 
     public ChangeLog(){

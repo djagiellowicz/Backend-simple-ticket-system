@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,9 +17,9 @@ public class Comment {
     private String description;
     private LocalDateTime creationDate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private AppUser postedBy;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Incident incident;
 
 
