@@ -44,10 +44,6 @@ public class AppUser {
     private List<Incident> createdIncidentsList;
     @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.PERSIST)
     private List<Incident> assignedToIncidentsList;
-    @OneToMany(mappedBy = "postedBy", cascade = CascadeType.PERSIST)
-    private List<Comment> commentList;
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.PERSIST)
-    private List<IncidentChange> incidentChangeList;
 
 
 

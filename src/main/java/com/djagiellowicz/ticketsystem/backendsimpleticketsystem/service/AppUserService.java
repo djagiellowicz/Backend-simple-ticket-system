@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,22 +29,6 @@ public class AppUserService implements IAppUserService {
         this.appUserRepository = appUserRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
-//    This method could be removed, only method with AppUserDTO will be used
-
-//    public void register(AppUser appUser) throws UserAlreadyExistsException {
-//        appUser.setLogin(appUser.getLogin().toLowerCase());
-//
-//        Optional<AppUser> byLogin = appUserRepository.findByLogin(appUser.getLogin());
-//
-//        if (byLogin.isPresent()){
-//            throw new UserAlreadyExistsException();
-//        }
-//
-//        appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
-//
-//        appUserRepository.save(appUser);
-//    }
 
     public void register(AppUserDTO appUserDTO) throws UserAlreadyExistsException {
         AppUser appUser = new AppUser(appUserDTO.getLogin(),appUserDTO.getName(),appUserDTO.getSurname()
@@ -62,26 +47,18 @@ public class AppUserService implements IAppUserService {
         appUserRepository.save(appUser);
     }
 
-//    public PageResponse<AppUserDTO> getPageAppUsers(int page){
-//        Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
-//
-//        long elements = allBy.getTotalElements();
-//        long currentPage = allBy.getNumber();
-//
-//
-//        return new PageResponse<>(elements, currentPage, allBy.stream()
-//                .map(appUser -> new AppUserDTO(appUser.getLogin(), appUser.getName(), appUser.getSurname(), appUser.getPassword()))
-//                .collect(Collectors.toList()));
-//    }
-//    public PageResponse<AppUserDTO> getAllAppUsers(){
-//        return getPageAppUsers(0);
-//    }
+    //TODO: To be changed to AppUserDTO
 
     public PageResponse<AppUser> getPageAppUsers(int page){
-        Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
 
-        return new PageResponse<>(allBy);
+        Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
+        long totalElements = allBy.getTotalElements();
+        int totalPages = allBy.getTotalPages();
+        List<AppUser> content = allBy.getContent();
+        return new PageResponse<>(totalElements,totalPages,content);
     }
+
+    //TODO: To be changed to AppUserDTO
 
     public PageResponse<AppUser> getAllAppUsers(){
         return getPageAppUsers(0);

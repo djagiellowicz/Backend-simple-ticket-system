@@ -21,21 +21,16 @@ public class Incident {
     private LocalDateTime creationDate;
     private IncidentStatus status;
 
-    @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL)
-    private List<Comment> commentList;
     @ManyToOne
     private AppUser assignedTo;
     @ManyToOne
     private AppUser createdBy;
-    @OneToOne(cascade = CascadeType.ALL)
-    private ChangeLog changeLog;
+
 
     public Incident(String title, String description) {
         this.title = title;
         this.description = description;
         this.creationDate = LocalDateTime.now();
         this.status = IncidentStatus.NEW;
-        this.commentList = new ArrayList<>();
-        this.changeLog = new ChangeLog();
     }
 }
