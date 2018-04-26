@@ -5,6 +5,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserD
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,20 +48,22 @@ public class AppUserService implements IAppUserService {
         appUserRepository.save(appUser);
     }
 
-    //TODO: To be changed to AppUserDTO
+    //TODO: (To be changed to AppUserDTO)
 
-    public PageResponse<AppUser> getPageAppUsers(int page){
+    public PageResponse<AppUserHeaderVO> getPageAppUsers(int page){
 
         Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
         long totalElements = allBy.getTotalElements();
         int totalPages = allBy.getTotalPages();
-        List<AppUser> content = allBy.getContent();
-        return new PageResponse<>(totalElements,totalPages,content);
+        List<AppUserHeaderVO> collect = allBy.getContent().stream().map(
+                 element -> new AppUserHeaderVO(element.getId(), element.getLogin(), element.getName(),
+                 element.getSurname())).collect(Collectors.toList());
+        return new PageResponse<>(totalElements,totalPages,collect);
     }
 
-    //TODO: To be changed to AppUserDTO
+    //TODO: Check if it works (To be changed to AppUserDTO)
 
-    public PageResponse<AppUser> getAllAppUsers(){
+    public PageResponse<AppUserHeaderVO> getAllAppUsers(){
         return getPageAppUsers(0);
     }
 

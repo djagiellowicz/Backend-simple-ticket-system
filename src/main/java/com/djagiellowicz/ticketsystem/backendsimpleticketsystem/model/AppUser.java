@@ -42,7 +42,7 @@ public class AppUser {
     private Set<UserRole> userRoleSet;
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<Incident> createdIncidentsList;
-    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL)
     private List<Incident> assignedToIncidentsList;
 
 

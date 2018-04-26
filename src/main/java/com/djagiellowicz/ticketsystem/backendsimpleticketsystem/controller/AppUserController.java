@@ -7,6 +7,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.A
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +36,16 @@ public class AppUserController {
     }
 
     @RequestMapping(path = "/list")
-    public ResponseEntity<PageResponse<AppUser>> list(){
-        PageResponse<AppUser> listOfAppUsers = appUserService.getAllAppUsers();
+    public ResponseEntity<PageResponse<AppUserHeaderVO>> list(){
+        PageResponse<AppUserHeaderVO> listOfAppUsers = appUserService.getAllAppUsers();
 
         return ResponseFactory.pageResponse(listOfAppUsers);
     }
 
     @RequestMapping(path = "/list/{page}")
-    public ResponseEntity<PageResponse<AppUser>> list(@PathVariable("page") int page){
+    public ResponseEntity<PageResponse<AppUserHeaderVO>> list(@PathVariable("page") int page){
 
-        PageResponse<AppUser> listOfAppUsers = appUserService.getPageAppUsers(page);
+        PageResponse<AppUserHeaderVO> listOfAppUsers = appUserService.getPageAppUsers(page);
 
         return ResponseFactory.pageResponse(listOfAppUsers);
     }
