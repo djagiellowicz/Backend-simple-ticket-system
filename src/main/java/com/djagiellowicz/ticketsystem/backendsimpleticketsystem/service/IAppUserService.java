@@ -6,10 +6,12 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserVO;
 
 public interface IAppUserService {
     void register(AppUserDTO appUserDTO) throws UserAlreadyExistsException;
     PageResponse<AppUserHeaderVO> getPageAppUsers(int page);
     PageResponse<AppUserHeaderVO> getAllAppUsers();
     void removeUser(Long userId)throws UserDoesNotExistsOrIsNotLoggedInException;
+    public AppUserVO getUser(long id) throws UserDoesNotExistsOrIsNotLoggedInException;
 }

@@ -6,6 +6,8 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserVO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -61,6 +63,28 @@ public class AppUserService implements IAppUserService {
 
     public PageResponse<AppUserHeaderVO> getAllAppUsers(){
         return getPageAppUsers(0);
+    }
+
+    public AppUserVO getUser(long id) throws UserDoesNotExistsOrIsNotLoggedInException{
+        Optional<AppUser> byId = appUserRepository.findById(id);
+        if (byId.isPresent()){
+            AppUser appUser = byId.get();
+
+            List<IncidentHeaderVO> assignedTo = appUser.getAssignedToIncidentsList().stream().map(
+                    element -> new IncidentHeaderVO(element.getId(), element.getTitle(), element.getDescription()
+                            , element.getCreationDate(), element.getStatus())).collect(Collectors.toList());
+
+            List<IncidentHeaderVO> createdBy = appUser.getCreatedIncidentsList().stream().map(
+                    element -> new IncidentHeaderVO(element.getId(), element.getTitle(), element.getDescription()
+                            , element.getCreationDate(), element.getStatus())).collect(Collectors.toList());
+
+            AppUserVO appUserVO = new AppUserVO(appUser.getId(),appUser.getLogin(),appUser.getName(),appUser.getSurname(),
+                    appUser.getUserRoleSet(),createdBy,assignedTo);
+
+            return appUserVO;
+        }
+
+         throw new UserDoesNotExistsOrIsNotLoggedInException();
     }
 
     public void removeUser(Long userId)throws UserDoesNotExistsOrIsNotLoggedInException{

@@ -22,4 +22,10 @@ public abstract class ResponseFactory {
     public static ResponseEntity<Response> deleted() {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+    public static <T> ResponseEntity<ObjectResponse<T>> objectRespone(ObjectResponse<T> response){
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    public static <T> ResponseEntity<ObjectResponse<T>> objectResponeBad(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 }

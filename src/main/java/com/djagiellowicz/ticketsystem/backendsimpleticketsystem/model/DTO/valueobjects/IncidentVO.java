@@ -1,6 +1,7 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;

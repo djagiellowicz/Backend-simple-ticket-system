@@ -4,10 +4,12 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserA
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,12 +52,16 @@ public class AppUserController {
         return ResponseFactory.pageResponse(listOfAppUsers);
     }
 
-//    @RequestMapping(path = "/get/{number}")
-//    public ResponseEntity<AppUserDTO> get(@PathVariable("number") Long id){
-//        appUserService.getUser(Long id);
-//
-//        return new ResponseEntity<AppUserDTO>(user));
-//    }
+    @RequestMapping(path = "/get/{number}")
+    public ResponseEntity<ObjectResponse<AppUserVO>> getUser(@PathVariable("number") long id){
+        try {
+            AppUserVO user = appUserService.getUser(id);
+            return ResponseFactory.objectRespone((new ObjectResponse<>(user)));
+        } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
+            return ResponseFactory.objectResponeBad();
+        }
+
+    }
 
     @RequestMapping(path = "/delete")
     public ResponseEntity<Response> deleteUser(long userId, long userToDeleteId){
