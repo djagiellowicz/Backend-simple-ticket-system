@@ -4,8 +4,10 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.Incid
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.ThereIsNoSuchStatusException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 
 public interface IIncidentService {
@@ -17,6 +19,6 @@ public interface IIncidentService {
             ThereIsNoSuchStatusException;
     void updateIncident(Incident incident, Long userId)
             throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
-
     void deleteIncident(Long incidentId, Long userId) throws IncidentDoesNotExistsException;
+    public ObjectResponse<IncidentVO> getIncident(long id) throws IncidentDoesNotExistsException;
 }

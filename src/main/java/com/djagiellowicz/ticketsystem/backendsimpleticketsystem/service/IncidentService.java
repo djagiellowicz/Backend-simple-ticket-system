@@ -5,8 +5,11 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.There
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUserRepository;
@@ -105,8 +108,6 @@ public class IncidentService implements IIncidentService {
 
     }
 
-    //TODO: To be changed to IncidentDTO
-
     @Override
     public PageResponse<IncidentHeaderVO> getPageIncidents(int page){
         Page<Incident> allBy = incidentRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
@@ -121,11 +122,37 @@ public class IncidentService implements IIncidentService {
         return new PageResponse<>(totalElements,totalPages,content);
     }
 
-    //TODO: To be changed to IncidentDTO
-
     @Override
     public PageResponse<IncidentHeaderVO> getPageIncidents(){
         return getPageIncidents(0);
+    }
+
+    @Override
+    public ObjectResponse<IncidentVO> getIncident(long id) throws IncidentDoesNotExistsException{
+        Optional<Incident> byId = incidentRepository.findById(id);
+        if (byId.isPresent()){
+            Incident incident = byId.get();
+            AppUser assignedTo = incident.getAssignedTo();
+            AppUser createdBy = incident.getCreatedBy();
+
+            AppUserHeaderVO appUserHeaderVOAssignedTo = new AppUserHeaderVO();
+            AppUserHeaderVO appUserHeaderVOCreatedBy = new AppUserHeaderVO();
+
+            if (assignedTo != null) {
+                appUserHeaderVOAssignedTo = new AppUserHeaderVO(assignedTo.getId(), assignedTo.getLogin(),
+                        assignedTo.getName(), assignedTo.getSurname());
+            }
+            if (createdBy != null) {
+                appUserHeaderVOCreatedBy = new AppUserHeaderVO(createdBy.getId(), createdBy.getLogin(),
+                        createdBy.getName(), createdBy.getSurname());
+            }
+
+            IncidentVO incidentVO = new IncidentVO(incident.getId(),incident.getTitle(),incident.getDescription(),
+                    incident.getCreationDate(),incident.getStatus(), appUserHeaderVOCreatedBy, appUserHeaderVOAssignedTo);
+
+            return new ObjectResponse<>(incidentVO);
+        }
+        throw new IncidentDoesNotExistsException();
     }
 
     @Override
