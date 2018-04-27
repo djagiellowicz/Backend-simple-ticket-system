@@ -48,20 +48,16 @@ public class AppUserService implements IAppUserService {
         appUserRepository.save(appUser);
     }
 
-    //TODO: (To be changed to AppUserDTO)
-
     public PageResponse<AppUserHeaderVO> getPageAppUsers(int page){
 
         Page<AppUser> allBy = appUserRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
         long totalElements = allBy.getTotalElements();
-        int totalPages = allBy.getTotalPages();
+        int totalPages = allBy.getPageable().getPageNumber();
         List<AppUserHeaderVO> collect = allBy.getContent().stream().map(
                  element -> new AppUserHeaderVO(element.getId(), element.getLogin(), element.getName(),
                  element.getSurname())).collect(Collectors.toList());
         return new PageResponse<>(totalElements,totalPages,collect);
     }
-
-    //TODO: Check if it works (To be changed to AppUserDTO)
 
     public PageResponse<AppUserHeaderVO> getAllAppUsers(){
         return getPageAppUsers(0);

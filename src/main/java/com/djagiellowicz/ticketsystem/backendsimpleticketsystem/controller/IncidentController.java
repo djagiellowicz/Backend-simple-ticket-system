@@ -6,6 +6,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.I
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.IIncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,13 +58,13 @@ public class IncidentController {
 
     }
     @RequestMapping(path = "/list/{page}")
-    public ResponseEntity<PageResponse<Incident>> getIncident(@PathVariable("page") int page) {
-        PageResponse<Incident> pageIncidents = incidentService.getPageIncidents(page);
+    public ResponseEntity<PageResponse<IncidentHeaderVO>> getIncident(@PathVariable("page") int page) {
+        PageResponse<IncidentHeaderVO> pageIncidents = incidentService.getPageIncidents(page);
         return ResponseFactory.pageResponse(pageIncidents);
     }
     @RequestMapping(path = "/list")
-    public ResponseEntity<PageResponse<Incident>> getIncident(Long userId) {
-        PageResponse<Incident> pageIncidents = incidentService.getPageIncidents();
+    public ResponseEntity<PageResponse<IncidentHeaderVO>> getIncident(Long userId) {
+        PageResponse<IncidentHeaderVO> pageIncidents = incidentService.getPageIncidents();
         return ResponseFactory.pageResponse(pageIncidents);
     }
 }

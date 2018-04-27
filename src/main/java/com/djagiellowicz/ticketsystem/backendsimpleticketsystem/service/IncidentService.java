@@ -6,6 +6,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserD
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUserRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.beans.support.PagedListHolder.DEFAULT_PAGE_SIZE;
 
@@ -106,18 +108,23 @@ public class IncidentService implements IIncidentService {
     //TODO: To be changed to IncidentDTO
 
     @Override
-    public PageResponse<Incident> getPageIncidents(int page){
+    public PageResponse<IncidentHeaderVO> getPageIncidents(int page){
         Page<Incident> allBy = incidentRepository.findAllBy(PageRequest.of(page, DEFAULT_PAGE_SIZE));
         long totalElements = allBy.getTotalElements();
-        int totalPages = allBy.getTotalPages();
-        List<Incident> content = allBy.getContent();
+        int totalPages = allBy.getPageable().getPageNumber();
+
+        List<IncidentHeaderVO> content = allBy.getContent().stream().map(
+                element -> new IncidentHeaderVO(element.getId(),element.getTitle(),element.getDescription(),
+                element.getCreationDate(),element.getStatus()))
+                .collect(Collectors.toList());
+
         return new PageResponse<>(totalElements,totalPages,content);
     }
 
     //TODO: To be changed to IncidentDTO
 
     @Override
-    public PageResponse<Incident> getPageIncidents(){
+    public PageResponse<IncidentHeaderVO> getPageIncidents(){
         return getPageIncidents(0);
     }
 

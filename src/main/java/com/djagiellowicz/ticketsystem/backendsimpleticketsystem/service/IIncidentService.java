@@ -5,11 +5,12 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.There
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
 
 public interface IIncidentService {
-    PageResponse<Incident> getPageIncidents(int page);
-    PageResponse<Incident> getPageIncidents();
+    PageResponse<IncidentHeaderVO> getPageIncidents(int page);
+    PageResponse<IncidentHeaderVO> getPageIncidents();
     void createIncident(IncidentDTO incidentDTO) throws UserDoesNotExistsOrIsNotLoggedInException;
     void changeStatus(Long userId, Long incidentId, int statusId)
             throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException,
