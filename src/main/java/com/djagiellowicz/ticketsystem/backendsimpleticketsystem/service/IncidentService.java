@@ -156,31 +156,24 @@ public class IncidentService implements IIncidentService {
     }
 
     @Override
-    public void changeStatus(Long userId, Long incidentId, int statusId)
-            throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException,
-                    ThereIsNoSuchStatusException{
-        Optional<AppUser> appUserById = appUserRepository.findById(userId);
+    public void changeStatus(Long incidentId, int statusId)
+            throws  IncidentDoesNotExistsException, ThereIsNoSuchStatusException {
         Optional<Incident> incidentById = incidentRepository.findById(incidentId);
 
-        if (appUserById.isPresent()){
-            if (incidentById.isPresent()){
-                Incident incident = incidentById.get();
-                IncidentStatus[] incidentStatus = IncidentStatus.values();
-                for (IncidentStatus status : incidentStatus) {
-                    if (status.getValue() == statusId){
-                        incident.setStatus(status);
-                        incidentRepository.save(incident);
-                        return;
-                    }
+        if(incidentById.isPresent()){
+            Incident incident = incidentById.get();
+            IncidentStatus[] values = IncidentStatus.values();
+
+            for (IncidentStatus availableStatus: values) {
+                if (availableStatus.getValue() == statusId){
+                    System.out.println(availableStatus.getValue() + " id przeslane: " + statusId);
+                    incident.setStatus(availableStatus);
+                    incidentRepository.save(incident);
+                    return;
                 }
-                throw new ThereIsNoSuchStatusException();
             }
-            else{
-                throw new IncidentDoesNotExistsException();
-            }
+            throw new ThereIsNoSuchStatusException();
         }
-        else {
-            throw new UserDoesNotExistsOrIsNotLoggedInException();
-        }
+        throw new IncidentDoesNotExistsException();
     }
 }

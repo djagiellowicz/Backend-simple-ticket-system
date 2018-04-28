@@ -13,5 +13,5 @@ public interface IAppUserService {
     PageResponse<AppUserHeaderVO> getPageAppUsers(int page);
     PageResponse<AppUserHeaderVO> getAllAppUsers();
     void removeUser(Long userId)throws UserDoesNotExistsOrIsNotLoggedInException;
-    public AppUserVO getUser(long id) throws UserDoesNotExistsOrIsNotLoggedInException;
+    AppUserVO getUser(long id) throws UserDoesNotExistsOrIsNotLoggedInException;
 }

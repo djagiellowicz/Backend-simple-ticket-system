@@ -1,6 +1,7 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.controller;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.IncidentDoesNotExistsException;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.ThereIsNoSuchStatusException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
@@ -77,5 +78,16 @@ public class IncidentController {
         } catch (IncidentDoesNotExistsException e) {
             return ResponseFactory.objectResponeBad();
         }
+    }
+    @RequestMapping(path = "/status/{incidentId}")
+    public ResponseEntity<Response> changeStatus(@PathVariable("incidentId") long incidentId, @RequestParam("statusid") int statusId){
+        try {
+            incidentService.changeStatus(incidentId,statusId);
+        } catch (IncidentDoesNotExistsException e) {
+            return ResponseFactory.badRequest();
+        } catch (ThereIsNoSuchStatusException e) {
+            return ResponseFactory.badRequest();
+        }
+        return ResponseFactory.ok("Status has been changed");
     }
 }

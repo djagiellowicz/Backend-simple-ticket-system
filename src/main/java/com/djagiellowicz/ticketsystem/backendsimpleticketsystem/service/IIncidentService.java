@@ -14,9 +14,8 @@ public interface IIncidentService {
     PageResponse<IncidentHeaderVO> getPageIncidents(int page);
     PageResponse<IncidentHeaderVO> getPageIncidents();
     void createIncident(IncidentDTO incidentDTO) throws UserDoesNotExistsOrIsNotLoggedInException;
-    void changeStatus(Long userId, Long incidentId, int statusId)
-            throws  UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException,
-            ThereIsNoSuchStatusException;
+    void changeStatus(Long incidentId, int statusId)
+            throws  IncidentDoesNotExistsException, ThereIsNoSuchStatusException;
     void updateIncident(Incident incident, Long userId)
             throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
     void deleteIncident(Long incidentId, Long userId) throws IncidentDoesNotExistsException;
