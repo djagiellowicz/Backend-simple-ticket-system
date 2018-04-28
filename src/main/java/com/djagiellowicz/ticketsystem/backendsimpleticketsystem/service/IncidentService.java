@@ -96,7 +96,7 @@ public class IncidentService implements IIncidentService {
     }
 
     @Override
-    public void deleteIncident(Long incidentId, Long userId) throws IncidentDoesNotExistsException {
+    public void deleteIncident(Long incidentId) throws IncidentDoesNotExistsException {
         Optional<Incident> byId = incidentRepository.findById(incidentId);
         if (byId.isPresent()){
             Incident incident = byId.get();

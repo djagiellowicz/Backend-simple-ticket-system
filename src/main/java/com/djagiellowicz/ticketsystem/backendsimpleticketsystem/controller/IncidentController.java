@@ -50,10 +50,10 @@ public class IncidentController {
         return ResponseFactory.created();
     }
 
-    @RequestMapping(path = "/delete")
-    public ResponseEntity<Response> deleteIncident(Long incidentId, Long userId) {
+    @RequestMapping(path = "/delete/{incidentid}")
+    public ResponseEntity<Response> deleteIncident(@PathVariable("incidentid") Long incidentId) {
         try {
-            incidentService.deleteIncident(incidentId, userId);
+            incidentService.deleteIncident(incidentId);
         } catch (IncidentDoesNotExistsException e) {
             return ResponseFactory.badRequest();
         }

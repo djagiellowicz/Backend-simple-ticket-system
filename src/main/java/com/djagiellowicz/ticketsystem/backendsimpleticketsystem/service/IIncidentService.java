@@ -18,6 +18,6 @@ public interface IIncidentService {
             throws  IncidentDoesNotExistsException, ThereIsNoSuchStatusException;
     void updateIncident(Incident incident, Long userId)
             throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
-    void deleteIncident(Long incidentId, Long userId) throws IncidentDoesNotExistsException;
-    public ObjectResponse<IncidentVO> getIncident(long id) throws IncidentDoesNotExistsException;
+    void deleteIncident(Long incidentId) throws IncidentDoesNotExistsException;
+    ObjectResponse<IncidentVO> getIncident(long id) throws IncidentDoesNotExistsException;
 }
