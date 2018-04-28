@@ -39,9 +39,9 @@ public class IncidentController {
     }
 
     @RequestMapping(path = "/update")
-    public ResponseEntity<Response> updateIncident(@RequestBody Incident incident, Long userId) {
+    public ResponseEntity<Response> updateIncident(@RequestBody Incident incident) {
         try {
-            incidentService.updateIncident(incident, userId);
+            incidentService.updateIncident(incident);
         } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
             return ResponseFactory.badRequest();
         } catch (IncidentDoesNotExistsException e) {
@@ -66,7 +66,7 @@ public class IncidentController {
         return ResponseFactory.pageResponse(pageIncidents);
     }
     @RequestMapping(path = "/list")
-    public ResponseEntity<PageResponse<IncidentHeaderVO>> getIncidents(Long userId) {
+    public ResponseEntity<PageResponse<IncidentHeaderVO>> getIncidents() {
         PageResponse<IncidentHeaderVO> pageIncidents = incidentService.getPageIncidents();
         return ResponseFactory.pageResponse(pageIncidents);
     }

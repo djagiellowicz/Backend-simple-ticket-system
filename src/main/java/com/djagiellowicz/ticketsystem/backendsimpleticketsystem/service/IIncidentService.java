@@ -16,8 +16,7 @@ public interface IIncidentService {
     void createIncident(IncidentDTO incidentDTO) throws UserDoesNotExistsOrIsNotLoggedInException;
     void changeStatus(Long incidentId, int statusId)
             throws  IncidentDoesNotExistsException, ThereIsNoSuchStatusException;
-    void updateIncident(Incident incident, Long userId)
-            throws UserDoesNotExistsOrIsNotLoggedInException, IncidentDoesNotExistsException;
+    void updateIncident(Incident incident) throws  IncidentDoesNotExistsException;
     void deleteIncident(Long incidentId) throws IncidentDoesNotExistsException;
     ObjectResponse<IncidentVO> getIncident(long id) throws IncidentDoesNotExistsException;
 }
