@@ -4,13 +4,11 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.Incid
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.ThereIsNoSuchStatusException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.*;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.Incident;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.IIncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -87,5 +85,11 @@ public class IncidentController {
             return ResponseFactory.badRequest();
         }
         return ResponseFactory.ok("Status has been changed");
+    }
+
+    @RequestMapping(path = "/status/list")
+    public ResponseEntity<ListResponse<IncidentStatus>> getStatuses(){
+        ListResponse<IncidentStatus> statuses = incidentService.getStatuses();
+        return ResponseFactory.listResponse(statuses);
     }
 }

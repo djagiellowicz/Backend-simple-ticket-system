@@ -5,6 +5,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.There
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ListResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -150,5 +152,12 @@ public class IncidentService implements IIncidentService {
             throw new ThereIsNoSuchStatusException();
         }
         throw new IncidentDoesNotExistsException();
+    }
+
+    @Override
+    public ListResponse<IncidentStatus> getStatuses(){
+        IncidentStatus[] values = IncidentStatus.values();
+        List<IncidentStatus> incidentStatuses = Arrays.asList(values);
+        return new ListResponse<>(incidentStatuses);
     }
 }
