@@ -40,22 +40,6 @@ public class IncidentService implements IIncidentService {
         this.appUserRepository = appUserRepository;
     }
 
-//    @Override
-//    public void createIncident(Incident incident, Long userId) throws UserDoesNotExistsOrIsNotLoggedInException {
-//        Optional<AppUser> byId = appUserRepository.findById(userId);
-//        if (byId.isPresent())
-//        {
-//            AppUser appUser = byId.get();
-//            incident.setCreatedBy(appUser);
-//            incident.setStatus(IncidentStatus.NEW);
-//            incidentRepository.save(incident);
-//        }
-//        else{
-//            throw new UserDoesNotExistsOrIsNotLoggedInException();
-//        }
-//
-//    }
-
     @Override
     public void createIncident(IncidentDTO incidentDTO) throws UserDoesNotExistsOrIsNotLoggedInException {
         Optional<AppUser> byId = appUserRepository.findById(incidentDTO.getCreatedById());

@@ -63,14 +63,13 @@ public class AppUserController {
 
     }
 
-    @RequestMapping(path = "/delete")
-    public ResponseEntity<Response> deleteUser(long userId, long userToDeleteId){
+    @RequestMapping(path = "/delete/{userid}")
+    public ResponseEntity<Response> deleteUser(@PathVariable ("userid") long userId){
         try {
-            appUserService.removeUser(userToDeleteId);
+            appUserService.removeUser(userId);
         } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
             return ResponseFactory.badRequest();
         }
-
         return ResponseFactory.deleted();
     }
 }

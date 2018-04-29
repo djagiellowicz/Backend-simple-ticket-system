@@ -42,15 +42,13 @@ public class IncidentController {
     public ResponseEntity<Response> updateIncident(@RequestBody Incident incident) {
         try {
             incidentService.updateIncident(incident);
-        } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
-            return ResponseFactory.badRequest();
         } catch (IncidentDoesNotExistsException e) {
             return ResponseFactory.badRequest();
         }
         return ResponseFactory.created();
     }
 
-    @RequestMapping(path = "/delete/{incidentid}")
+    @RequestMapping(path = "/delete/{incidentid}", method = RequestMethod.DELETE)
     public ResponseEntity<Response> deleteIncident(@PathVariable("incidentid") Long incidentId) {
         try {
             incidentService.deleteIncident(incidentId);

@@ -10,12 +10,14 @@ public abstract class ResponseFactory {
     public static ResponseEntity<Response> usernameAlreadyExists(){
         return ResponseEntity.ok(new MessageResponse("Username already Exists"));
     }
+
     public static ResponseEntity<Response> created(){
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     public static ResponseEntity<Response> badRequest(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     public static <T> ResponseEntity<PageResponse<T>> pageResponse(PageResponse<T> response){
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -27,5 +29,8 @@ public abstract class ResponseFactory {
     }
     public static <T> ResponseEntity<ObjectResponse<T>> objectResponeBad(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    public static <T> ResponseEntity<ListResponse<T>> listResponse(ListResponse<T> response){
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique=true)
     private String login;
     private String name;
     private String surname;
@@ -42,7 +44,7 @@ public class AppUser {
     private Set<UserRole> userRoleSet;
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<Incident> createdIncidentsList;
-    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.PERSIST)
     private List<Incident> assignedToIncidentsList;
 
 
