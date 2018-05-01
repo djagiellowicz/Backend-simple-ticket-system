@@ -4,6 +4,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.Incid
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.ThereIsNoSuchStatusException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentUpdateDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.*;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.IncidentVO;
@@ -26,7 +27,7 @@ public class IncidentController {
         this.incidentService = incidentService;
     }
 
-    @RequestMapping(path = "/create")
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
     public ResponseEntity<Response> createIncident(@RequestBody IncidentDTO incidentDTO) {
         try {
             incidentService.createIncident(incidentDTO);
@@ -37,12 +38,15 @@ public class IncidentController {
     }
 
     @RequestMapping(path = "/update")
-    public ResponseEntity<Response> updateIncident(@RequestBody Incident incident) {
+    public ResponseEntity<Response> updateIncident(@RequestBody IncidentUpdateDTO incidentUpdateDTO) {
         try {
-            incidentService.updateIncident(incident);
+            incidentService.updateIncident(incidentUpdateDTO);
         } catch (IncidentDoesNotExistsException e) {
             return ResponseFactory.badRequest();
+        } catch (UserDoesNotExistsOrIsNotLoggedInException e) {
+            return ResponseFactory.badRequest();
         }
+
         return ResponseFactory.created();
     }
 

@@ -4,10 +4,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserA
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.Response;
-import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ResponseFactory;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.*;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.service.AppUserService;
@@ -35,6 +32,13 @@ public class AppUserController {
             return ResponseFactory.usernameAlreadyExists();
         }
         return ResponseFactory.created();
+    }
+
+    @RequestMapping(path = "/all")
+    public ResponseEntity<ListResponse<AppUserHeaderVO>> getAll(){
+        ListResponse<AppUserHeaderVO> listOfAppUsers = appUserService.getAllAppUsersAsList();
+
+        return ResponseFactory.listResponse(listOfAppUsers);
     }
 
     @RequestMapping(path = "/list")

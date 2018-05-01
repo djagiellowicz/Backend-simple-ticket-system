@@ -3,10 +3,13 @@ package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.value
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class IncidentVO extends IncidentHeaderVO {
     private AppUserHeaderVO assignedTo;
     private AppUserHeaderVO createdBy;

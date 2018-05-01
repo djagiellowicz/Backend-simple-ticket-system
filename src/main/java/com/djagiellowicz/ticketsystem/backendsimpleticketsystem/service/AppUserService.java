@@ -4,6 +4,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserA
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ListResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserVO;
@@ -85,6 +86,15 @@ public class AppUserService implements IAppUserService {
         }
 
          throw new UserDoesNotExistsOrIsNotLoggedInException();
+    }
+
+    @Override
+    public ListResponse<AppUserHeaderVO> getAllAppUsersAsList() {
+        List<AppUser> all = appUserRepository.findAll();
+        List<AppUserHeaderVO> collect = all.stream().map(appUser -> new AppUserHeaderVO(appUser.getId(), appUser.getLogin(), appUser.getName(),
+                appUser.getSurname())).collect(Collectors.toList());
+
+        return new ListResponse<>(collect);
     }
 
     public void removeUser(Long userId)throws UserDoesNotExistsOrIsNotLoggedInException{

@@ -4,6 +4,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.Incid
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.ThereIsNoSuchStatusException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentUpdateDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ListResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
@@ -18,7 +19,8 @@ public interface IIncidentService {
     void createIncident(IncidentDTO incidentDTO) throws UserDoesNotExistsOrIsNotLoggedInException;
     void changeStatus(Long incidentId, int statusId)
             throws  IncidentDoesNotExistsException, ThereIsNoSuchStatusException;
-    void updateIncident(Incident incident) throws  IncidentDoesNotExistsException;
+    void updateIncident(IncidentUpdateDTO incidentUpdateDTO)
+            throws IncidentDoesNotExistsException, UserDoesNotExistsOrIsNotLoggedInException;
     void deleteIncident(Long incidentId) throws IncidentDoesNotExistsException;
     ObjectResponse<IncidentVO> getIncident(long id) throws IncidentDoesNotExistsException;
     ListResponse<IncidentStatus> getStatuses();

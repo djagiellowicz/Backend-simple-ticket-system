@@ -5,6 +5,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.There
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.IncidentUpdateDTO;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ListResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ObjectResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
@@ -62,10 +63,29 @@ public class IncidentService implements IIncidentService {
     }
 
     @Override
-    public void updateIncident(Incident incident) throws IncidentDoesNotExistsException {
-        Optional<Incident> incidentById = incidentRepository.findById(incident.getId());
-            if (incidentById.isPresent()){
-                incidentRepository.save(incident);
+    public void updateIncident(IncidentUpdateDTO incidentUpdateDTO) throws IncidentDoesNotExistsException, UserDoesNotExistsOrIsNotLoggedInException {
+        Optional<Incident> incidentById = incidentRepository.findById(incidentUpdateDTO.getId());
+        Optional<AppUser> createdByOptional = appUserRepository.findById(incidentUpdateDTO.getCreatedById());
+        Optional<AppUser> assignedToOptional = appUserRepository.findById(incidentUpdateDTO.getAssignedToId());
+
+        if (incidentById.isPresent()){
+                Incident incident = incidentById.get();
+                if (createdByOptional.isPresent()){
+                    AppUser createdBy = createdByOptional.get();
+                    incident.setDescription(incidentUpdateDTO.getDescription());
+                    incident.setTitle(incidentUpdateDTO.getTitle());
+                    incident.setStatus(incidentUpdateDTO.getStatus());
+                    incident.setCreationDate(incidentUpdateDTO.getCreationDate());
+                    incident.setCreatedBy(createdBy);
+                        if (assignedToOptional.isPresent()){
+                            AppUser assignedTo = assignedToOptional.get();
+                            incident.setAssignedTo(assignedTo);
+                        }
+                    incidentRepository.save(incident);
+                }
+                else {
+                    throw new UserDoesNotExistsOrIsNotLoggedInException();
+                }
             }
             else{
                 throw new IncidentDoesNotExistsException();
@@ -143,7 +163,6 @@ public class IncidentService implements IIncidentService {
 
             for (IncidentStatus availableStatus: values) {
                 if (availableStatus.getValue() == statusId){
-                    System.out.println(availableStatus.getValue() + " id przeslane: " + statusId);
                     incident.setStatus(availableStatus);
                     incidentRepository.save(incident);
                     return;
