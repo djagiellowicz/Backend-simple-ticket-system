@@ -67,6 +67,7 @@ public class IncidentService implements IIncidentService {
         Optional<Incident> incidentById = incidentRepository.findById(incidentUpdateDTO.getId());
         Optional<AppUser> createdByOptional = appUserRepository.findById(incidentUpdateDTO.getCreatedById());
         Optional<AppUser> assignedToOptional = appUserRepository.findById(incidentUpdateDTO.getAssignedToId());
+        System.out.println(incidentUpdateDTO);
 
         if (incidentById.isPresent()){
                 Incident incident = incidentById.get();

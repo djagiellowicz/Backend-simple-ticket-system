@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,10 +22,14 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     @Column(unique=true)
+    @Size(min=3)
     private String login;
     private String name;
     private String surname;
+    @Size(min=3)
+    @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
