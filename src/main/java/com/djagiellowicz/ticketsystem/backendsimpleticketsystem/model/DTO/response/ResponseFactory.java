@@ -14,7 +14,7 @@ public abstract class ResponseFactory {
     public static ResponseEntity<Response> created(){
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-    public static ResponseEntity<Response> badRequest(){
+    public static ResponseEntity badRequest(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
@@ -33,4 +33,8 @@ public abstract class ResponseFactory {
     public static <T> ResponseEntity<ListResponse<T>> listResponse(ListResponse<T> response){
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+    public static <T> ResponseEntity<T> result(T response){
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }

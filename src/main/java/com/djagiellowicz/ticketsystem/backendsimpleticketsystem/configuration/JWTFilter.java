@@ -23,8 +23,8 @@ import java.util.List;
 public class JWTFilter extends GenericFilterBean {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String SECRET_KEY = "very-secret-KEY";
-    private static final String AUTHORITIES_KEY = "roles";
+    public static final String SECRET_KEY = "very-secret-KEY";
+    public static final String AUTHORITIES_KEY = "roles";
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {

@@ -4,6 +4,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserA
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.exceptions.UserDoesNotExistsOrIsNotLoggedInException;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.AppUser;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.AppUserDTO;
+import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info.LoginDto;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.ListResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.response.PageResponse;
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.valueobjects.AppUserHeaderVO;
@@ -13,6 +14,7 @@ import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.repository.AppUs
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -105,5 +107,20 @@ public class AppUserService implements IAppUserService {
         else{
             throw new UserDoesNotExistsOrIsNotLoggedInException();
         }
+    }
+
+    public Optional<AppUser> getUserWithLoginAndPassword(LoginDto dto) throws UserDoesNotExistsOrIsNotLoggedInException {
+        Optional<AppUser> foundUser = appUserRepository.findByLogin(dto.getUsername());
+
+        if (foundUser.isPresent()){
+            AppUser user = foundUser.get();
+            // Check if password is correct
+            if (!bCryptPasswordEncoder.matches(dto.getPassword(), user.getPassword())){
+                throw new UserDoesNotExistsOrIsNotLoggedInException();
+            }
+        }else if (!foundUser.isPresent()){
+            throw new UserDoesNotExistsOrIsNotLoggedInException();
+        }
+        return foundUser;
     }
 }
