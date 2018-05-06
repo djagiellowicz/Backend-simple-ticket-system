@@ -1,6 +1,7 @@
 package com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.DTO.info;
 
 import com.djagiellowicz.ticketsystem.backendsimpleticketsystem.model.IncidentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
